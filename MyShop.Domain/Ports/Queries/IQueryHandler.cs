@@ -14,6 +14,6 @@ namespace MyShop.Domain.Ports.Queries
 
     public interface IQueryHandler
     {
-        public Type GetSupportedQueryType<S>() where S : AQuery => typeof(S);
+        public Type GetSupportedQueryType<TQuery>() where TQuery : AQuery => typeof(TQuery);
     }
 }

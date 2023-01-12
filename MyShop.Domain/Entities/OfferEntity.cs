@@ -8,11 +8,21 @@ namespace MyShop.Domain.Entities
 {
     public class OfferEntity
     {
-        public OfferEntity(int id)
+        public OfferEntity(int id, string name, string brand, string size, int quantity, double price)
         {
-            Id = id;
+            ProductId = id;
+            ProductName = name;
+            ProductBrand = brand;
+            ProductSize = size;
+            Quantity = quantity;
+            Price = price;
         }
 
-        public int Id { get; }
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
+        public string ProductBrand { get; set; }
+        public string ProductSize { get; set; }
+        public int Quantity { get; set; }
+        public double Price { get; set; }
     }
 }

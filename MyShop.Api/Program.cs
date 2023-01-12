@@ -1,6 +1,10 @@
+using MyShop.Domain.Commands;
+using MyShop.Domain.Ports.Commands;
 using MyShop.Domain.Ports.Queries;
+using MyShop.Domain.Ports.Repositories;
 using MyShop.Domain.Queries;
 using MyShop.Infrastructure.Handlers;
+using MyShop.Infrastructure.Repositories;
 using MyShop.Infrastructure.Routers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,10 +16,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddSingleton<IReadRepository, ReadRepository>();
+builder.Services.AddSingleton<IWriteRepository, WriteRepository>();
+
 builder.Services.AddSingleton<QueryRouter>();
 builder.Services.AddSingleton<CommandRouter>();
 
 builder.Services.AddSingleton<MyShopQueryHandler>();
+builder.Services.AddSingleton<MyShopCommandHandler>();
 
 builder.Services.AddSingleton<IQueryRouter>(p =>
 {
@@ -24,6 +32,16 @@ builder.Services.AddSingleton<IQueryRouter>(p =>
 
     queryRouter.AddQueryHandler<GetAllOffersQuery>(handler);
     return queryRouter;
+});
+
+builder.Services.AddSingleton<ICommandRouter>(p =>
+{
+    var commandRouter = p.GetRequiredService<CommandRouter>();
+    var handler = p.GetRequiredService<MyShopCommandHandler>();
+
+    commandRouter.AddCommandHandler<CreateOfferCommand>(handler);
+    commandRouter.AddCommandHandler<UpdateOfferCommand>(handler);
+    return commandRouter;
 });
 
 var app = builder.Build();
