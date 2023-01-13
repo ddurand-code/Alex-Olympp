@@ -1,4 +1,3 @@
-using System.Reflection.Metadata.Ecma335;
 using Microsoft.AspNetCore.Mvc;
 using MyShop.Api.DTOs;
 using MyShop.Domain.Commands;
@@ -8,7 +7,7 @@ using MyShop.Domain.Ports.Commands;
 using MyShop.Domain.Ports.Queries;
 using MyShop.Domain.Queries;
 
-namespace MyShop.Controllers
+namespace MyShop.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -26,11 +25,11 @@ namespace MyShop.Controllers
         }
 
         [HttpGet("/offer/all")]
-        public async Task<ActionResult<List<OfferEntity>>> GetAllOffer()
+        public async Task<ActionResult<IEnumerable<ProductEntity>>> GetAllOffer()
         {
             try
             {
-                var res = await new GetAllOffersQuery().QueryAsync(_queryRouter);
+                var res = await new GetAllProductsQuery().QueryAsync(_queryRouter);
                 return StatusCode(200, res);
             }
             catch (Exception e)
@@ -40,38 +39,41 @@ namespace MyShop.Controllers
                     Console.WriteLine(entityNotFoundException.Message);
                     return StatusCode(204);
                 }
-
                 throw;
             }
         }
 
-        [HttpPost("/offer/all")]
-        public async Task<ActionResult<string>> CreateOffer([FromQuery] OfferDTO dto)
+        [HttpPost("/offer/add")]
+        public async Task<ActionResult<string>> CreateOffer([FromQuery] ProductDTO dto)
         {
+            var entity = new ProductEntity(0, dto.ProductName, dto.ProductBrand, dto.ProductSize,
+                dto.Quantity, dto.Price);
+
+            var res = await new CreateProductCommand(entity).CommandAsync(_commandRouter);
+            return StatusCode(200, res);
+        }
+
+        [HttpPut("/offer/update")]
+        public async Task<ActionResult<string>> UpdateOffer([FromQuery] ProductDTO dto)
+        {
+            var entity = new ProductEntity(dto.ProductId, dto.ProductName, dto.ProductBrand, dto.ProductSize,
+                dto.Quantity, dto.Price);
+
             try
             {
-                var tmpOffer = new OfferEntity(dto.ProductId, dto.ProductName, dto.ProductBrand, dto.ProductSize,
-                    dto.Quantity, dto.Price);
-
-                var res = await new CreateOfferCommand(tmpOffer).CommandAsync(_commandRouter);
+                var res = new UpdateProductCommand(entity).CommandAsync(_commandRouter);
                 return StatusCode(200, res);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                if (e is EntityNotFoundException entityNotFoundException)
+                {
+                    Console.WriteLine(entityNotFoundException.Message);
+                    return StatusCode(204);
+                }
                 throw;
             }
 
-        }
-
-        [HttpPut("/offer/all")]
-        public async Task<ActionResult<string>> UpdateOffer([FromQuery] OfferDTO dto)
-        {
-            var tmpOffer = new OfferEntity(dto.ProductId, dto.ProductName, dto.ProductBrand, dto.ProductSize,
-                dto.Quantity, dto.Price);
-
-            var res = await new UpdateOfferCommand(tmpOffer).CommandAsync(_commandRouter);
-            return StatusCode(200, res);
         }
     }
 }

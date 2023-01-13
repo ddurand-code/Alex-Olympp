@@ -9,6 +9,6 @@ namespace MyShop.Domain.Ports.Repositories
 {
     public interface IReadRepository
     {
-        Task<List<OfferEntity>> GetAllOfferAsync();
+        Task<IEnumerable<ProductEntity>> GetAllOfferAsync();
     }
 }

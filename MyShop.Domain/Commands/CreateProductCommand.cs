@@ -8,15 +8,15 @@ using MyShop.Domain.Ports.Commands;
 
 namespace MyShop.Domain.Commands
 {
-    public class UpdateOfferCommand : ACommand<OfferEntity, UpdateOfferCommand>
+    public class CreateProductCommand : ACommand<ProductEntity, CreateProductCommand>
     {
-        public OfferEntity Offer;
-
-        public UpdateOfferCommand(OfferEntity offer)
+        public ProductEntity Product { get; }
+        public CreateProductCommand(ProductEntity product)
         {
-            Offer = offer;
+            this.Product = product;
         }
-        public override async Task<OfferEntity> CommandAsync(ICommandRouter commandRouter)
+
+        public override async Task<ProductEntity> CommandAsync(ICommandRouter commandRouter)
         {
             return await commandRouter.RouteAsync(this);
         }

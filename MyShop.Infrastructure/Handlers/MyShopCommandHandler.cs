@@ -10,8 +10,8 @@ using MyShop.Domain.Ports.Repositories;
 
 namespace MyShop.Infrastructure.Handlers
 {
-    public class MyShopCommandHandler : ICommandHandler<OfferEntity, CreateOfferCommand>,
-            ICommandHandler<OfferEntity, UpdateOfferCommand>
+    public class MyShopCommandHandler : ICommandHandler<ProductEntity, CreateProductCommand>,
+            ICommandHandler<ProductEntity, UpdateProductCommand>
     {
 
         private readonly IWriteRepository _writeRepository;
@@ -20,17 +20,17 @@ namespace MyShop.Infrastructure.Handlers
             _writeRepository = writeRepository;
         }
 
-        public async Task<OfferEntity> HandleAsync(CreateOfferCommand command, CancellationToken token = default)
+        public async Task<ProductEntity> HandleAsync(CreateProductCommand command, CancellationToken token = default)
         {
-            Console.WriteLine("Save offer handle");
-            var res = await _writeRepository.CreateOfferAsync(command.offer);
+            Console.WriteLine("Save Product handle");
+            var res = await _writeRepository.CreateOfferAsync(command.Product);
             return res;
         }
 
-        public async Task<OfferEntity> HandleAsync(UpdateOfferCommand command, CancellationToken token = default)
+        public async Task<ProductEntity> HandleAsync(UpdateProductCommand command, CancellationToken token = default)
         {
-            Console.WriteLine("Update offer handle");
-            var res = await _writeRepository.UpdateOfferAsync(command.Offer);
+            Console.WriteLine("Update Product handle");
+            var res = await _writeRepository.UpdateOfferAsync(command.Product);
             return res;
         }
     }

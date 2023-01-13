@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MyShop.Domain.Entities
 {
-    public class OfferEntity
+    public class ProductEntity
     {
-        public OfferEntity(int id, string name, string brand, string size, int quantity, double price)
+        public ProductEntity(int id, string name, string brand, string size, int quantity, decimal price)
         {
             ProductId = id;
             ProductName = name;
@@ -23,6 +23,6 @@ namespace MyShop.Domain.Entities
         public string ProductBrand { get; set; }
         public string ProductSize { get; set; }
         public int Quantity { get; set; }
-        public double Price { get; set; }
+        public decimal Price { get; set; }
     }
 }

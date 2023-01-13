@@ -9,7 +9,7 @@ namespace MyShop.Domain.Ports.Repositories
 {
     public interface IWriteRepository
     {
-        Task<OfferEntity> CreateOfferAsync(OfferEntity offerEntity);
-        Task<OfferEntity> UpdateOfferAsync(OfferEntity offerEntity);
+        Task<ProductEntity> CreateOfferAsync(ProductEntity offerEntity);
+        Task<ProductEntity> UpdateOfferAsync(ProductEntity productEntity);
     }
 }

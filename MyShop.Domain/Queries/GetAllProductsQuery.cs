@@ -8,9 +8,9 @@ using MyShop.Domain.Ports.Queries;
 
 namespace MyShop.Domain.Queries
 {
-    public class GetAllOffersQuery : AQuery<IEnumerable<OfferEntity>, GetAllOffersQuery>
+    public class GetAllProductsQuery : AQuery<IEnumerable<ProductEntity>, GetAllProductsQuery>
     {
-        public override async Task<IEnumerable<OfferEntity>> QueryAsync(IQueryRouter queryRouter)
+        public override async Task<IEnumerable<ProductEntity>> QueryAsync(IQueryRouter queryRouter)
         {
             return await queryRouter.RouteAsync(this);
         }
