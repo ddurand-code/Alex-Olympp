@@ -8,6 +8,10 @@ namespace MyShop.Domain.Entities
 {
     public class ProductEntity
     {
+        public ProductEntity()
+        {
+        }
+
         public ProductEntity(int id, string name, string brand, string size, int quantity, decimal price)
         {
             ProductId = id;

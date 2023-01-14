@@ -13,16 +13,15 @@ namespace MyShop.Infrastructure.Handlers
 {
     public class MyShopQueryHandler : IQueryHandler<IEnumerable<ProductEntity>, GetAllProductsQuery>
     {
-        public readonly IReadRepository _readRepository;
-        public MyShopQueryHandler(IReadRepository readRepository)
+        private readonly IProductRepository _productRepository;
+        public MyShopQueryHandler(IProductRepository productRepository)
         {
-            _readRepository = readRepository;
+            _productRepository = productRepository;
         }
 
         public async Task<IEnumerable<ProductEntity>> HandleAsync(GetAllProductsQuery query, CancellationToken token = default)
         {
-            //use repository
-            var resultList = await _readRepository.GetAllOfferAsync();
+            var resultList = await _productRepository.GetProductOfferAsync();
             return resultList;
         }
     }

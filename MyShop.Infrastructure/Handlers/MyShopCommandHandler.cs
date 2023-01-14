@@ -14,23 +14,23 @@ namespace MyShop.Infrastructure.Handlers
             ICommandHandler<ProductEntity, UpdateProductCommand>
     {
 
-        private readonly IWriteRepository _writeRepository;
-        public MyShopCommandHandler(IWriteRepository writeRepository)
+        private readonly IProductRepository _productRepository;
+        public MyShopCommandHandler(IProductRepository productRepository)
         {
-            _writeRepository = writeRepository;
+            _productRepository = productRepository;
         }
 
         public async Task<ProductEntity> HandleAsync(CreateProductCommand command, CancellationToken token = default)
         {
             Console.WriteLine("Save Product handle");
-            var res = await _writeRepository.CreateOfferAsync(command.Product);
+            var res = await _productRepository.CreateProductAsync(command.Product);
             return res;
         }
 
         public async Task<ProductEntity> HandleAsync(UpdateProductCommand command, CancellationToken token = default)
         {
             Console.WriteLine("Update Product handle");
-            var res = await _writeRepository.UpdateOfferAsync(command.Product);
+            var res = await _productRepository.UpdateProductAsync(command.Product);
             return res;
         }
     }

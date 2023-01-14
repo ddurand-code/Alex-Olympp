@@ -1,3 +1,5 @@
+using System.Configuration;
+using Microsoft.Extensions.Configuration;
 using MyShop.Domain.Commands;
 using MyShop.Domain.Ports.Commands;
 using MyShop.Domain.Ports.Queries;
@@ -10,6 +12,7 @@ using MyShop.Infrastructure.Repositories;
 using MyShop.Infrastructure.Routers;
 
 var builder = WebApplication.CreateBuilder(args);
+//var postgresString = ConfigurationBinder.
 
 // Add services to the container.
 
@@ -19,6 +22,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<IDbContextFactory, MyShopDbContextProvider>();
+builder.Services.AddSingleton<NpgDbConnectionProvider>();
 
 builder.Services.AddSingleton<QueryRouter>();
 builder.Services.AddSingleton<CommandRouter>();
@@ -26,8 +30,7 @@ builder.Services.AddSingleton<CommandRouter>();
 builder.Services.AddSingleton<MyShopQueryHandler>();
 builder.Services.AddSingleton<MyShopCommandHandler>();
 
-builder.Services.AddSingleton<IReadRepository, ReadRepository>();
-builder.Services.AddSingleton<IWriteRepository, WriteRepository>();
+builder.Services.AddSingleton<IProductRepository, ProductRepository>();
 
 builder.Services.AddSingleton<IQueryRouter>(p =>
 {

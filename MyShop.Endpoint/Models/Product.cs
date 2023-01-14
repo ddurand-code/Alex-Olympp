@@ -13,11 +13,11 @@ public partial class Product
 
     public string Productsize { get; set; } = null!;
 
-    public int Quantityid { get; set; }
+    public int Stockid { get; set; }
 
     public int Priceid { get; set; }
 
     public virtual Price Price { get; set; } = null!;
 
-    public virtual Stock Quantity { get; set; } = null!;
+    public virtual Stock Stock { get; set; } = null!;
 }

@@ -61,7 +61,7 @@ namespace MyShop.Api.Controllers
 
             try
             {
-                var res = new UpdateProductCommand(entity).CommandAsync(_commandRouter);
+                var res = await new UpdateProductCommand(entity).CommandAsync(_commandRouter);
                 return StatusCode(200, res);
             }
             catch (Exception e)

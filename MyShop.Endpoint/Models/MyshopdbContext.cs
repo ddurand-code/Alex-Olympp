@@ -54,17 +54,17 @@ public partial class MyshopdbContext : DbContext
             entity.Property(e => e.Productsize)
                 .HasMaxLength(10)
                 .HasColumnName("productsize");
-            entity.Property(e => e.Quantityid).HasColumnName("quantityid");
+            entity.Property(e => e.Stockid).HasColumnName("stockid");
 
             entity.HasOne(d => d.Price).WithMany(p => p.Products)
                 .HasForeignKey(d => d.Priceid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("product_priceid_fkey");
 
-            entity.HasOne(d => d.Quantity).WithMany(p => p.Products)
-                .HasForeignKey(d => d.Quantityid)
+            entity.HasOne(d => d.Stock).WithMany(p => p.Products)
+                .HasForeignKey(d => d.Stockid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("product_quantityid_fkey");
+                .HasConstraintName("product_stockid_fkey");
         });
 
         modelBuilder.Entity<Stock>(entity =>
