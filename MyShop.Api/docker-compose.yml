@@ -3,7 +3,7 @@ services:
   postgresql:
     image: bitnami/postgresql:latest
     volumes:
-      - ./myshop.sql:/docker-entrypoint-initdb.d/myshop.sql:ro
+      - ./myshop.sql:/docker-entrypoint-initdb.d/myshop.sql
     environment:
       - POSTGRES_PASSWORD=password
     restart: unless-stopped
