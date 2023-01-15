@@ -1,0 +1,16 @@
+version: '3.9'
+services:
+  postgresql:
+    image: bitnami/postgresql:latest
+    volumes:
+      - ./myshop.sql:/docker-entrypoint-initdb.d/myshop.sql
+    environment:
+      - POSTGRES_PASSWORD=password
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+  myshop:
+    build: .
+    ports:
+      - 80:80
+    
