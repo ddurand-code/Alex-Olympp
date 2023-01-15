@@ -16,6 +16,7 @@ namespace MyShop.Infrastructure.Handlers
         private readonly IProductRepository _productRepository;
         public MyShopQueryHandler(IProductRepository productRepository)
         {
+            Console.WriteLine("Get Product handle");
             _productRepository = productRepository;
         }
 

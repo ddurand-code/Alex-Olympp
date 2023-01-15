@@ -23,7 +23,7 @@ namespace MyShop.Infrastructure.Routers
         {
             if (_commandHandlers.TryGetValue(command.CommandType, out var queryHandler))
                 return await((ICommandHandler<TResult, TCommand>)queryHandler).HandleAsync((TCommand)command);
-            throw new KeyNotFoundException();
+            throw new KeyNotFoundException($"Command not found for key : {command.CommandType}.");
         }
 
         public void AddCommandHandler<TCommand>(ICommandHandler handler) where TCommand : ACommand

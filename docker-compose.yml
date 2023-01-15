@@ -9,3 +9,8 @@ services:
     restart: unless-stopped
     ports:
       - 5432:5432
+  myshop:
+    build: .
+    ports:
+      - 80:80
+    

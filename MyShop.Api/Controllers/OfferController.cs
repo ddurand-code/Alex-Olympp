@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MyShop.Api.DTOs;
 using MyShop.Domain.Commands;
 using MyShop.Domain.Entities;
@@ -39,6 +40,11 @@ namespace MyShop.Api.Controllers
                     Console.WriteLine(entityNotFoundException.Message);
                     return StatusCode(204);
                 }
+                if (e is KeyNotFoundException keyNotFoundException)
+                {
+                    Console.WriteLine(keyNotFoundException.Message);
+                    return StatusCode(404, keyNotFoundException.Message);
+                }
                 throw;
             }
         }
@@ -49,8 +55,27 @@ namespace MyShop.Api.Controllers
             var entity = new ProductEntity(0, dto.ProductName, dto.ProductBrand, dto.ProductSize,
                 dto.Quantity, dto.Price);
 
-            var res = await new CreateProductCommand(entity).CommandAsync(_commandRouter);
-            return StatusCode(200, res);
+            try
+            {
+                var res = await new CreateProductCommand(entity).CommandAsync(_commandRouter);
+                return StatusCode(200, res);
+            }
+            catch (Exception e)
+            {
+                if (e is CreateFailureException createFailureException)
+                {
+                    Console.WriteLine(createFailureException.Message);
+                    return StatusCode(204);
+                }
+                if (e is KeyNotFoundException keyNotFoundException)
+                {
+                    Console.WriteLine(keyNotFoundException.Message);
+                    return StatusCode(404, keyNotFoundException.Message);
+                }
+                throw;
+            }
+
+
         }
 
         [HttpPut("/offer/update")]
@@ -66,10 +91,15 @@ namespace MyShop.Api.Controllers
             }
             catch (Exception e)
             {
-                if (e is EntityNotFoundException entityNotFoundException)
+                if (e is DbUpdateException dbUpdateException)
                 {
-                    Console.WriteLine(entityNotFoundException.Message);
+                    Console.WriteLine(dbUpdateException.Message);
                     return StatusCode(204);
+                }
+                if (e is KeyNotFoundException keyNotFoundException)
+                {
+                    Console.WriteLine(keyNotFoundException.Message);
+                    return StatusCode(404, keyNotFoundException.Message);
                 }
                 throw;
             }

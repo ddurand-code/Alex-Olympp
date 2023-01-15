@@ -21,7 +21,7 @@ namespace MyShop.Infrastructure.Routers
         {
             if (_queryHandlers.TryGetValue(query.QueryType, out var queryHandler))
                 return await((IQueryHandler<TResult, TQuery>)queryHandler).HandleAsync((TQuery)query);
-            throw new KeyNotFoundException();
+            throw new KeyNotFoundException($"Query not found for key : {query.QueryType}.");
         }
 
         public void AddQueryHandler<TQuery>(IQueryHandler handler) where TQuery : AQuery
